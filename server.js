@@ -1,6 +1,7 @@
 var express = require("express");
 var _ = require('lodash');
 var moment = require('moment');
+var fs = require('fs');
 var app     = express();
 var port = process.env.PORT || 8080;
 
@@ -9,10 +10,13 @@ app.use(express.bodyParser());
 
 var feedback = [];
 
-
-
 // ROUTES
 
+app.get('/', function(req, res) {
+	fs.readFile(__dirname + '/vote.html', 'utf8', function(err, text){
+        res.send(text);
+    });
+});
 
 app.post('/data', function(req, res) {
 	console.log('received request on /data');
