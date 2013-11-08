@@ -17,6 +17,7 @@ button .smiley {
     display: block;
     font-weight: bold;
     font-size: 75px;
+    pointer-events: none;
 
     transform:rotate(90deg);
     -ms-transform:rotate(90deg);
