@@ -18,9 +18,15 @@ function init() {
 
 $(init);
 
+function groupScoresPerMinute(scores) {
+	_.groupBy(scores, function(score) {
+		return score.date.format('hh:mm');
+	});
+}
+
 function getData(callback) {
 	$.get('/data', function(data, response, jqXHR) {
-		renderChart(getVotes(JSON.parse(data)));
+		callback(getVotes(JSON.parse(data)));
 		//console.log('got response from server');
 	});
 }
@@ -37,6 +43,7 @@ function getVotes(items) {
 function renderChart(scores) {
 	//console.log(scores);
 	var chart = r.barchart(x, y, chartW, chartH, scores, { stacked: false });
+	$('.bad').text('Bad reviews: ', _.)
 	//chart.label([1,2,3]);
 	timerId = setTimeout(getData, 1000);
 }
