@@ -1,5 +1,9 @@
 body {
     background-color: #111;
+    font-family: "Arial Black", Gadget, sans-serif;
+}
+
+#voting {
 }
 
 button {
@@ -9,20 +13,34 @@ button {
     border: none;
     background: #fd5158 none;
     color: #b9b9b9;
-    margin: 20px auto;
+    margin: 15px auto;
     display: block;
 }
 
 button .smiley {
     display: block;
     font-weight: bold;
-    font-size: 75px;
+    font-size: 50px;
     pointer-events: none;
 
     transform:rotate(90deg);
     -ms-transform:rotate(90deg);
     -webkit-transform:rotate(90deg);
 
+}
+
+#waiting {
+    display: none;
+    text-align: center;
+}
+
+#waiting * {
+    color: white;
+}
+
+#waiting #number {
+    margin: 20px;
+    font-size: 100px;
 }
 
 .black {

@@ -1,13 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+
     <script src="/lib/external/jquery-2.0.3.min.js" type="application/javascript"></script>
+    <script src="/lib/external/lodash-2.2.1.min.js" type="application/javascript"></script>
     <script src="/vote/vote.js" type="application/javascript"></script>
     <link href="/vote/vote.css" type="text/css" rel="stylesheet">
 </head>
 <body>
-    <button data-vote-weight="3"><span class="smiley">:)</span></button>
-    <button data-vote-weight="2"><span class="smiley">:|</span></button>
-    <button data-vote-weight="1"><span class="smiley">:(</span></button>
+    <section id="voting">
+        <button data-vote-weight="3"><span class="smiley">:)</span></button>
+        <button data-vote-weight="2"><span class="smiley">:|</span></button>
+        <button data-vote-weight="1"><span class="smiley">:(</span></button>
+    </section>
+
+    <section id="waiting">
+        <div>Du kan stemme igjen om:</div>
+        <div id="number"></div>
+    </section>
 </body>
 </html>

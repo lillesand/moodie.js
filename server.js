@@ -19,10 +19,19 @@ app.get('/', function(req, res) {
 });
 
 app.post('/data', function(req, res) {
-	console.log('received request on /data');
-  	var item = req.body;
-  	item.date = moment(new Date());
-  	feedback.push(item);
+  	var vote = req.body.vote;
+
+    if ([1,2,3].indexOf(vote) == -1) {
+        console.log('invalid vote: ' + vote)
+        return;
+    }
+
+    console.log('received vote: ' + vote);
+
+  	feedback.push({
+        vote: vote,
+        date: moment(new Date())
+    });
   	res.end();
 });
 
