@@ -3,7 +3,7 @@ var _ = require('lodash');
 var moment = require('moment');
 var fs = require('fs');
 var app     = express();
-var port = process.env.PORT || 8080;
+var port = process.env.PORT || 1337;
 
 app.use(express.bodyParser());
 
