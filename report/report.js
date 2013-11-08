@@ -36,6 +36,7 @@ function getVotes(items) {
 
 function renderChart(scores) {
 	//console.log(scores);
-	r.barchart(x, y, chartW, chartH, scores, { stacked: true });
+	var chart = r.barchart(x, y, chartW, chartH, scores, { stacked: false });
+	//chart.label([1,2,3]);
 	timerId = setTimeout(getData, 1000);
 }
