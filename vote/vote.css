@@ -8,9 +8,20 @@ button {
     outline: none;
     border: none;
     background: #fd5158 none;
-    margin-top: 10px;
-    font-size: 40px;
     color: #b9b9b9;
+    margin: 20px auto;
+    display: block;
+}
+
+button .smiley {
+    display: block;
+    font-weight: bold;
+    font-size: 75px;
+
+    transform:rotate(90deg);
+    -ms-transform:rotate(90deg);
+    -webkit-transform:rotate(90deg);
+
 }
 
 .black {
