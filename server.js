@@ -13,7 +13,7 @@ var feedback = [];
 // ROUTES
 
 app.get('/', function(req, res) {
-	fs.readFile(__dirname + '/vote.html', 'utf8', function(err, text){
+	fs.readFile(__dirname + '/vote/vote.html', 'utf8', function(err, text){
         res.send(text);
     });
 });
