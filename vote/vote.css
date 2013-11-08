@@ -1,0 +1,26 @@
+body {
+    background-color: #111;
+}
+
+button {
+    padding: 20px;
+    width: 95%;
+    outline: none;
+    border: none;
+    background: #fd5158 none;
+    margin-top: 10px;
+    font-size: 40px;
+    color: #b9b9b9;
+}
+
+.black {
+    color: #111;
+}
+
+.light-grey {
+    color: #b9b9b9;
+}
+
+.red {
+    color: #fd5158;
+}
