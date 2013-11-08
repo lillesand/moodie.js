@@ -1,5 +1,6 @@
 var express = require("express");
 var _ = require('lodash');
+var moment = require('moment');
 var app     = express();
 var port = process.env.PORT || 8080;
 
@@ -11,15 +12,19 @@ var feedback = [];
 
 
 // ROUTES
-	
-app.get('/', function(req, res) {
-  res.end("Hello World");
-});
+
 
 app.post('/data', function(req, res) {
-  var item = req.body;
-  item.date = moment(new Date());
-  feedback.push(item);
+	console.log('received request on /data');
+  	var item = req.body;
+  	item.date = moment(new Date());
+  	feedback.push(item);
+  	res.end();
+});
+
+app.get('/data', function(req, res) {
+	console.log(feedback);
+	res.end(JSON.stringify(feedback));
 });
 
 app.configure(function(){
