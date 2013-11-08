@@ -32,7 +32,7 @@ $(document).ready(function() {
             url: '/data',
             method: 'post',
             contentType: 'application/json; charset=UTF-8',
-            data: JSON.stringify({ vote: 2 }),
+            data: JSON.stringify({ vote: vote }),
             accept: 'application/json'
         });
 
