@@ -21,7 +21,7 @@ $(init);
 function getData(callback) {
 	$.get('/data', function(data, response, jqXHR) {
 		renderChart(getVotes(JSON.parse(data)));
-		console.log('got response from server');
+		//console.log('got response from server');
 	});
 }
 
@@ -35,7 +35,7 @@ function getVotes(items) {
 }
 
 function renderChart(scores) {
-	console.log(scores);
+	//console.log(scores);
 	r.barchart(x, y, chartW, chartH, scores, { stacked: true });
 	timerId = setTimeout(getData, 1000);
 }
