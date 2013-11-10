@@ -1,6 +1,3 @@
-var r;
-
-
 var x = 10;
 var y = 10;
 var canvasW = 800;
@@ -12,7 +9,6 @@ var chartH = 200;
 var timerId;
 
 function init() {
-	r = Raphael(x, y, canvasW, canvasH);
 	getData();
 }
 
@@ -20,8 +16,8 @@ $(init);
 
 function getData(callback) {
 	$.get('/data', function(data, response, jqXHR) {
-		renderChart(getVotes(JSON.parse(data)));
-		//console.log('got response from server');
+		renderChart(JSON.parse(data));
+		console.log('got response from server');
 	});
 }
 
@@ -35,8 +31,6 @@ function getVotes(items) {
 }
 
 function renderChart(scores) {
-	//console.log(scores);
-	var chart = r.barchart(x, y, chartW, chartH, scores, { stacked: false });
-	//chart.label([1,2,3]);
+	console.log(scores);
 	timerId = setTimeout(getData, 1000);
 }
