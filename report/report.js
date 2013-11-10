@@ -23,21 +23,17 @@ function getData(callback) {
 	$.get('/data', function(data, response, jqXHR) {
 		renderChart(JSON.parse(data));
 		});
+	timerId = setTimeout(getData, 1000);
 }
 
-function getVotes(items) {
-	var scores = [];
-	for (var i = items.length - 1; i >= 0; i--) {
-		var item = items[i];
-		scores.push(item.vote);
-	};
-	return scores;
+function getVoteCountForScore(votes, score) {
+	return _.countBy(votes, function(vote) { return vote.vote === score; }).true;
 }
 
 function renderChart(items) {
-	var lowScores = _.countBy(items, function(item) { return item.vote === 1; }).true;
-	var mediumScores = _.countBy(items, function(item) { return item.vote === 2; }).true;
-	var highScores = _.countBy(items, function(item) { return item.vote === 3; }).true;
+	var lowScores = getVoteCountForScore(items, 1);
+	var mediumScores = getVoteCountForScore(items, 2);
+	var highScores = getVoteCountForScore(items, 3);
 
 	var data = {
 	labels : [":(",":|",":)"],
@@ -60,5 +56,4 @@ function renderChart(items) {
 	};
 
 	chart.Bar(data, options);
-	timerId = setTimeout(getData, 1000);
 }
