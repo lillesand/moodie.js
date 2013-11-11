@@ -1,18 +1,9 @@
-var r;
-
-
-var x = 10;
-var y = 10;
-var canvasW = 800;
-var canvasH = 600;
-
-var chartW = 200;
-var chartH = 200;
-
+var chart;
 var timerId;
 
 function init() {
-	r = Raphael(x, y, canvasW, canvasH);
+	var context = $("#barChart").get(0).getContext("2d");
+	chart = new Chart(context);
 	getData();
 }
 
@@ -20,23 +11,39 @@ $(init);
 
 function getData(callback) {
 	$.get('/data', function(data, response, jqXHR) {
-		renderChart(getVotes(JSON.parse(data)));
-		//console.log('got response from server');
+		renderChart(JSON.parse(data));
 	});
-}
-
-function getVotes(items) {
-	var scores = [];
-	for (var i = items.length - 1; i >= 0; i--) {
-		var item = items[i];
-		scores.push(item.vote);
-	};
-	return scores;
-}
-
-function renderChart(scores) {
-	//console.log(scores);
-	var chart = r.barchart(x, y, chartW, chartH, scores, { stacked: false });
-	//chart.label([1,2,3]);
 	timerId = setTimeout(getData, 1000);
-}
+};
+
+function getVoteCountForScore(votes, score) {
+	return _.countBy(votes, function(vote) { return vote.vote === score; }).true;
+};
+
+function renderChart(items) {
+	var lowScoreCount = getVoteCountForScore(items, 1);
+	var mediumScoreCount = getVoteCountForScore(items, 2);
+	var highScoreCount = getVoteCountForScore(items, 3);
+
+	var data = {
+		labels : [":(",":|",":)"],
+		datasets : [
+			{
+				fillColor : "rgba(220,220,220,0.5)",
+				strokeColor : "rgba(220,220,220,1)",
+				data : [lowScoreCount, mediumScoreCount, highScoreCount]
+			}
+		]
+	};
+
+	var options = {
+		scaleOverride : true,
+		scaleSteps : _.max([lowScoreCount, mediumScoreCount, highScoreCount]),
+		scaleStepWidth : 1,
+		scaleStartValue : 0,
+		animation: false
+
+	};
+
+	chart.Bar(data, options);
+};
