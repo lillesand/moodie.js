@@ -11,7 +11,7 @@
             width: getParameterByName('width') || 400
         };
 
-        var $canvas = _.template('<canvas id="barChart" width="<%= width %>" height="<%= height %>"></canvas>', options);
+        var $canvas = $(_.template('<canvas id="barChart"></canvas>', options));
         $('body').html($canvas);
 
         var context = $("#barChart").get(0).getContext("2d");
@@ -56,6 +56,7 @@
         };
 
         chart.Bar(data, options);
+
     }
 
     function getParameterByName(name) {

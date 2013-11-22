@@ -37,7 +37,7 @@ app.post('/data', function(req, res) {
   	var vote = req.body.vote;
 
     if ([1,2,3].indexOf(vote) == -1) {
-        console.log('invalid vote: ' + vote)
+        console.log('invalid vote: ' + vote);
         return;
     }
 
