@@ -5,7 +5,6 @@
     $(document).ready(init);
 
     function init() {
-
         var options = {
             height: getParameterByName('height') || 400,
             width: getParameterByName('width') || 400
@@ -21,13 +20,48 @@
 
     function getData() {
         $.get('/data', function(data) {
-            renderBars(JSON.parse(data));
+            //renderBars(JSON.parse(data));
+            renderLines(JSON.parse(data));
         });
-        timerId = setTimeout(getData, 1000);
+        //timerId = setTimeout(getData, 1000);
     }
 
-    function getVoteCountForScore(votes, score) {
-        return _.countBy(votes, function(vote) { return vote.vote === score; }).true;
+    function renderLines(items) {
+        var lineData = moodie.parseForLines(items);
+
+        var dataSets = [];
+        _.each(lineData.lineValues, function(dataPoints, label) {
+            dataSets.push({
+                fillColor : "rgba(220,220,220,0.5)",
+                strokeColor : "rgba(220,220,220,1)",
+                pointColor : "rgba(220,220,220,1)",
+                pointStrokeColor : "#fff",
+                data : dataPoints
+            });
+        });
+
+        console.log(dataSets);
+
+
+        chart.Line({
+            labels: lineData.timeIntervals,
+            datasets: [
+                {
+                    fillColor : "rgba(220,220,220,0.5)",
+                    strokeColor : "rgba(220,220,220,1)",
+                    pointColor : "rgba(220,220,220,1)",
+                    pointStrokeColor : "#fff",
+                    data : [65,59,90,81,56,55,40]
+                },
+                {
+                    fillColor : "rgba(151,187,205,0.5)",
+                    strokeColor : "rgba(151,187,205,1)",
+                    pointColor : "rgba(151,187,205,1)",
+                    pointStrokeColor : "#fff",
+                    data : [28,48,40,19,96,27,100]
+                }
+            ]
+        }, {});
     }
 
     function renderBars(items) {
@@ -52,11 +86,13 @@
             scaleStepWidth : 1,
             scaleStartValue : 0,
             animation: false
-
         };
 
         chart.Bar(data, options);
+    }
 
+    function getVoteCountForScore(votes, score) {
+        return _.countBy(votes, function(vote) { return vote.vote === score; }).true;
     }
 
     function getParameterByName(name) {
