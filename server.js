@@ -20,10 +20,10 @@ var feedback = [{"vote":1,"date":"2013-11-10T13:57:00.067Z"},
                      {"vote":2,"date":"2013-11-10T13:56:47.067Z"},
                      {"vote":3,"date":"2013-11-10T13:57:35.067Z"},
                      {"vote":2,"date":"2013-11-10T13:56:25.067Z"},
-                     {"vote":1,"date":"2013-11-10T13:55:20.067Z"},
+                     {"vote":1,"date":"2013-11-10T13:55:20.067Z"}
 ];
 // comment the line below to enable dummy feedback data for testing
-var feedback = [];
+//var feedback = [];
 
 // ROUTES
 
@@ -51,7 +51,6 @@ app.post('/data', function(req, res) {
 });
 
 app.get('/data', function(req, res) {
-	console.log(feedback);
 	res.end(JSON.stringify(feedback));
 });
 

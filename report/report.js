@@ -1,49 +1,68 @@
-var chart;
-var timerId;
+(function($) {
+    var chart;
+    var timerId;
 
-function init() {
-	var context = $("#barChart").get(0).getContext("2d");
-	chart = new Chart(context);
-	getData();
-}
+    $(document).ready(init);
 
-$(init);
+    function init() {
 
-function getData(callback) {
-	$.get('/data', function(data, response, jqXHR) {
-		renderChart(JSON.parse(data));
-	});
-	timerId = setTimeout(getData, 1000);
-};
+        var options = {
+            height: getParameterByName('height') || 400,
+            width: getParameterByName('width') || 400
+        };
 
-function getVoteCountForScore(votes, score) {
-	return _.countBy(votes, function(vote) { return vote.vote === score; }).true;
-};
+        var $canvas = _.template('<canvas id="barChart" width="<%= width %>" height="<%= height %>"></canvas>', options);
+        $('body').html($canvas);
 
-function renderChart(items) {
-	var lowScoreCount = getVoteCountForScore(items, 1);
-	var mediumScoreCount = getVoteCountForScore(items, 2);
-	var highScoreCount = getVoteCountForScore(items, 3);
+        var context = $("#barChart").get(0).getContext("2d");
+        chart = new Chart(context);
+        getData();
+    }
 
-	var data = {
-		labels : [":(",":|",":)"],
-		datasets : [
-			{
-				fillColor : "rgba(220,220,220,0.5)",
-				strokeColor : "rgba(220,220,220,1)",
-				data : [lowScoreCount, mediumScoreCount, highScoreCount]
-			}
-		]
-	};
+    function getData() {
+        $.get('/data', function(data) {
+            renderBars(JSON.parse(data));
+        });
+        timerId = setTimeout(getData, 1000);
+    }
 
-	var options = {
-		scaleOverride : true,
-		scaleSteps : _.max([lowScoreCount, mediumScoreCount, highScoreCount]),
-		scaleStepWidth : 1,
-		scaleStartValue : 0,
-		animation: false
+    function getVoteCountForScore(votes, score) {
+        return _.countBy(votes, function(vote) { return vote.vote === score; }).true;
+    }
 
-	};
+    function renderBars(items) {
+        var lowScoreCount = getVoteCountForScore(items, 1);
+        var mediumScoreCount = getVoteCountForScore(items, 2);
+        var highScoreCount = getVoteCountForScore(items, 3);
 
-	chart.Bar(data, options);
-};
+        var data = {
+            labels : [":(",":|",":)"],
+            datasets : [
+                {
+                    fillColor : "rgba(220,220,220,0.5)",
+                    strokeColor : "rgba(220,220,220,1)",
+                    data : [lowScoreCount, mediumScoreCount, highScoreCount]
+                }
+            ]
+        };
+
+        var options = {
+            scaleOverride : true,
+            scaleSteps : _.max([lowScoreCount, mediumScoreCount, highScoreCount]),
+            scaleStepWidth : 1,
+            scaleStartValue : 0,
+            animation: false
+
+        };
+
+        chart.Bar(data, options);
+    }
+
+    function getParameterByName(name) {
+        name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+            results = regex.exec(location.search);
+        return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
+
+})(jQuery);
