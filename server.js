@@ -1,12 +1,10 @@
-var express = require("express");
-var _ = require('lodash');
-var moment = require('moment');
-var fs = require('fs');
-var app     = express();
+var express = require("express"),
+    _ = require('lodash'),
+    moment = require('moment'),
+    fs = require('fs'),
+    bodyParser = require('body-parser');
+var app = express();
 var port = process.env.PORT || 1337;
-
-app.use(express.bodyParser());
-
 
 var feedback = [{"vote":1,"date":"2013-11-10T13:57:00.067Z"},
                      {"vote":1,"date":"2013-11-10T13:58:12.067Z"},
@@ -25,10 +23,13 @@ var feedback = [{"vote":1,"date":"2013-11-10T13:57:00.067Z"},
 // comment the line below to enable dummy feedback data for testing
 //var feedback = [];
 
-// ROUTES
 
+app.use(bodyParser.json());
+app.use('/public', express.static('public'));
+
+// ROUTES
 app.get('/', function(req, res) {
-	fs.readFile(__dirname + '/vote/vote.html', 'utf8', function(err, text){
+	fs.readFile(__dirname + '/public/vote/vote.html', 'utf8', function(err, text){
         res.send(text);
     });
 });
@@ -54,18 +55,15 @@ app.get('/data', function(req, res) {
 	res.end(JSON.stringify(feedback));
 });
 
-app.configure(function(){
-  app.use(express.methodOverride());
-  app.use(express.bodyParser());
-  app.use(express.static(__dirname + "/"));
-  app.use(express.errorHandler({
-	dumpExceptions: true, 
-	showStack: true
-  }));
-  app.use(app.router);
+
+app.use(function(req, res, next){
+    console.log('Not found:', req.path, '(', req.method, ')');
+    res.status(404).send('Not found.');
 });
 
-app.listen(port);
-console.log('Server running on port', port, '...');
+app.listen(port, function() {
+    console.log('Server running on port', port, '...');
+});
+
 
 

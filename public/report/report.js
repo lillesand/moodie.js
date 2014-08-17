@@ -20,10 +20,11 @@
 
     function getData() {
         $.get('/data', function(data) {
+
             //renderBars(JSON.parse(data));
             renderLines(JSON.parse(data));
         });
-        //timerId = setTimeout(getData, 1000);
+        timerId = setTimeout(getData, 1000);
     }
 
     function renderLines(items) {
@@ -40,28 +41,19 @@
             });
         });
 
-        console.log(dataSets);
-
+        var lineOpts = {
+            animation: false,
+            scaleOverride: false,
+            scaleStartValue: 0,
+            scaleStepWidth: 1,
+            scaleSteps: 3,
+            scaleGridLineColor : "rgba(2,0,0,.05)"
+        };
 
         chart.Line({
             labels: lineData.timeIntervals,
-            datasets: [
-                {
-                    fillColor : "rgba(220,220,220,0.5)",
-                    strokeColor : "rgba(220,220,220,1)",
-                    pointColor : "rgba(220,220,220,1)",
-                    pointStrokeColor : "#fff",
-                    data : [65,59,90,81,56,55,40]
-                },
-                {
-                    fillColor : "rgba(151,187,205,0.5)",
-                    strokeColor : "rgba(151,187,205,1)",
-                    pointColor : "rgba(151,187,205,1)",
-                    pointStrokeColor : "#fff",
-                    data : [28,48,40,19,96,27,100]
-                }
-            ]
-        }, {});
+            datasets: dataSets
+        }, lineOpts);
     }
 
     function renderBars(items) {
