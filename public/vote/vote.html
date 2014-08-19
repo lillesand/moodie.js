@@ -7,6 +7,13 @@
     <script src="/public/external/jquery-2.0.3.min.js" type="application/javascript"></script>
     <script src="/public/external/lodash-2.2.1.min.js" type="application/javascript"></script>
     <script src="/public/vote/vote.js" type="application/javascript"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        var socket = io.connect(document.location.origin);
+        socket.on('pulse', function (data) {
+            $('#pulse').text(data.pulse);
+        });
+    </script>
     <link href="/public/vote/vote.css" type="text/css" rel="stylesheet">
 </head>
 <body>
@@ -20,5 +27,7 @@
         <div>Du kan stemme igjen om:</div>
         <div id="number"></div>
     </section>
+
+    <section id="pulse"></section>
 </body>
 </html>

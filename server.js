@@ -2,9 +2,20 @@ var express = require("express"),
     _ = require('lodash'),
     moment = require('moment'),
     fs = require('fs'),
+    PulseServer = require('./pulse/server'),
     bodyParser = require('body-parser');
+
 var app = express();
+var server = require('http').Server(app);
+
+app.use(bodyParser.json());
+app.use('/public', express.static('public'));
+
+var io = require('socket.io')(server);
+var pulseServer = new PulseServer(app, io);
+
 var port = process.env.PORT || 1337;
+
 
 var feedback = [{"vote":1,"date":"2013-11-10T13:57:00.067Z"},
                      {"vote":1,"date":"2013-11-10T13:58:12.067Z"},
@@ -21,11 +32,8 @@ var feedback = [{"vote":1,"date":"2013-11-10T13:57:00.067Z"},
                      {"vote":1,"date":"2013-11-10T13:55:20.067Z"}
 ];
 // comment the line below to enable dummy feedback data for testing
-//var feedback = [];
+var feedback = [];
 
-
-app.use(bodyParser.json());
-app.use('/public', express.static('public'));
 
 // ROUTES
 app.get('/', function(req, res) {
@@ -61,7 +69,7 @@ app.use(function(req, res, next){
     res.status(404).send('Not found.');
 });
 
-app.listen(port, function() {
+server.listen(port, function() {
     console.log('Server running on port', port, '...');
 });
 

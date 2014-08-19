@@ -43,6 +43,11 @@ button .smiley {
     font-size: 100px;
 }
 
+#pulse {
+    color: white;
+    font-size: 50px;
+}
+
 .black {
     color: #111;
 }
