@@ -24,27 +24,57 @@ function countdown(opts) {
 }
 
 $(document).ready(function() {
-    $('#voting').find('button').on('click', function(e) {
+    var socket = io.connect(document.location.origin);
+    socket.on('pulse', function (data) {
+        $('#pulse').text(data.pulse);
+    });
+
+    socket.on('message', function(data) {
+        var messageElement = $('<li></li>');
+        messageElement.append($('<span class="chat-message"></span>').text(data.message));
+        messageElement.append($('<span class="message-smiley"></span>').text(data.smiley));
+
+        $('#messages').find('ul').prepend(messageElement);
+    });
+
+
+    var $messageInput = $('#message');
+    var maxLength = $messageInput.attr('maxlength');
+    $messageInput.on('keyup', function() {
+        var remaining = maxLength - $messageInput.val().length;
+        $('.remaining').text(remaining);
+    });
+    $messageInput.trigger('keyup');
+
+    $('#feedback').find('button').on('click', function(e) {
         e.preventDefault();
         var vote = $(this).data('vote-weight');
+        var smiley = $(this).find('.smiley').text();
+        var message = $messageInput.val();
 
-        $.ajax({
-            url: '/data',
-            method: 'post',
-            contentType: 'application/json; charset=UTF-8',
-            data: JSON.stringify({ vote: vote }),
-            accept: 'application/json'
-        });
+        if (message.length == 0) {
+            return;
+        }
 
-        $('#voting').slideUp();
+        $messageInput.val('').trigger('keyup');
+
+        var data = {
+            vote: vote,
+            smiley: smiley,
+            message: message
+        };
+
+        socket.emit('message', data);
+
+        $('#feedback').slideUp();
         $('#waiting').slideDown();
         countdown({
-            countdown: 15,
+            countdown: 10,
             iteration: function(time) {
                 $('#number').text(time)
             },
             done: function() {
-                $('#voting').slideDown();
+                $('#feedback').slideDown();
                 $('#waiting').slideUp();
             }
         });

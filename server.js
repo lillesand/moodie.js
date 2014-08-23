@@ -3,6 +3,7 @@ var express = require("express"),
     moment = require('moment'),
     fs = require('fs'),
     PulseServer = require('./pulse/server'),
+    MessageServer = require('./message/server'),
     bodyParser = require('body-parser');
 
 var app = express();
@@ -13,6 +14,7 @@ app.use('/public', express.static('public'));
 
 var io = require('socket.io')(server);
 var pulseServer = new PulseServer(app, io);
+var messageServer = new MessageServer(app, io);
 
 var port = process.env.PORT || 1337;
 

@@ -9,25 +9,30 @@
     <script src="/public/vote/vote.js" type="application/javascript"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script>
-        var socket = io.connect(document.location.origin);
-        socket.on('pulse', function (data) {
-            $('#pulse').text(data.pulse);
-        });
+
     </script>
     <link href="/public/vote/vote.css" type="text/css" rel="stylesheet">
 </head>
 <body>
-    <section id="voting">
-        <button data-vote-weight="3"><span class="smiley">:)</span></button>
-        <button data-vote-weight="2"><span class="smiley">:|</span></button>
-        <button data-vote-weight="1"><span class="smiley">:(</span></button>
+    <section id="feedback">
+        <textarea id="message" placeholder="Hva har du på hjertet?" maxlength="160"></textarea>
+        <span class="remaining"></span>
+        <section id="send">
+            <button data-vote-weight="3"><span class="smiley">:)</span></button>
+            <button data-vote-weight="2"><span class="smiley">:|</span></button>
+            <button data-vote-weight="1"><span class="smiley">:(</span></button>
+        </section>
     </section>
 
     <section id="waiting">
-        <div>Du kan stemme igjen om:</div>
+        <div>Bra tilbakemelding! Du kan dele mer om…</div>
         <div id="number"></div>
     </section>
 
     <section id="pulse"></section>
+    <section id="messages">
+        <ul>
+        </ul>
+    </section>
 </body>
 </html>
