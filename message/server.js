@@ -11,6 +11,15 @@ function MessageServer(expressApp, io) {
             }
             io.emit('message', message);
         });
-    })
+
+        socket.on('consume', function() {
+            if (messages.length > 0) {
+                io.emit('consumed', messages.shift());
+            }
+            else {
+                io.emit('consumed-empty');
+            }
+        })
+    });
 
 }
