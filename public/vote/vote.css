@@ -64,6 +64,7 @@ button .smiley {
     width:100%;
     text-align: center;
     padding: 0;
+    background-color: #111;
 }
 
 .black {
