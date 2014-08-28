@@ -97,7 +97,7 @@ button .smiley {
 
 #messages li .message-smiley {
     float:right;
-    font-size: 30px;
+    font-size: 20px;
     transform:rotate(90deg);
     -ms-transform:rotate(90deg);
     -webkit-transform:rotate(90deg);
